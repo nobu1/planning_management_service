@@ -5,28 +5,28 @@ PROJECT = "./csv/project.csv"
 BUDGET_DATA = "./csv/budget_data.csv"
 
 
-def receive_register_budget_data():
+def receive_json_data():
     context = zmq.Context()
     socket = context.socket(zmq.REP)
     socket.bind("tcp://*:5555")
 
-    print("Budget Data Receiver Startup.")
+    print("PMS Receiver Startup.")
 
     while True:
         # Receive JSON request
-        budget_records = socket.recv_json()
+        receive_records = socket.recv_json()
 
         # Confirm event data
-        event = budget_records['request']['event']
+        event = receive_records['request']['event']
 
         if event == "registerBudgetData":
-            # Extract the body data from the budget_records
+            # Extract the body data from the receive_records
             project_name = \
-                budget_records['request']['body']['projectName']
+                receive_records['request']['body']['projectName']
             start_month = \
-                budget_records['request']['body']['startMonth']
+                receive_records['request']['body']['startMonth']
             end_month = \
-                budget_records['request']['body']['endMonth']
+                receive_records['request']['body']['endMonth']
             amount1_dict = {
                 "month": "",
                 "pv": ""
@@ -36,13 +36,13 @@ def receive_register_budget_data():
                 "pv": ""
             }
             amount1_dict["month"] = \
-                budget_records['request']['body']['amount'][0]['month']
+                receive_records['request']['body']['amount'][0]['month']
             amount1_dict['pv'] = \
-                budget_records['request']['body']['amount'][0]['pv']
+                receive_records['request']['body']['amount'][0]['pv']
             amount2_dict["month"] = \
-                budget_records['request']['body']['amount'][1]['month']
+                receive_records['request']['body']['amount'][1]['month']
             amount2_dict['pv'] = \
-                budget_records['request']['body']['amount'][1]['pv']
+                receive_records['request']['body']['amount'][1]['pv']
             amount_list = [amount1_dict, amount2_dict]
 
             # Store the budget data into project.csv
@@ -69,22 +69,73 @@ def receive_register_budget_data():
                     "body": {"code": "200"}
                 }
             }
+
+            # Respond JSON data
+            socket.send_json(response_json)
         elif event == "modifyBudgetData":
+            # Extract the body data from the receive_records
+            project_name = \
+                receive_records['request']['body']['projectName']
+            amount_dict = {
+                "month": "",
+                "pv": ""
+            }
+            amount_dict["month"] = \
+                receive_records['request']['body']['amount'][0]["month"]
+            amount_dict["pv"] = \
+                receive_records['request']['body']['amount'][0]["pv"]
 
+            # Read budget_data.csv
+            df = pd.read_csv(BUDGET_DATA)
+
+            # Update the value of pv
+            if df[
+                (df["projectName"] == str(project_name)) &
+                (df["month"] == str(amount_dict["month"]))
+            ].bool:
+                df.loc[
+                    (df["projectName"] == str(project_name)) &
+                    (df["month"] == str(amount_dict["month"])), "pv"
+                ] = int(amount_dict["pv"])
+
+                # Modify budget_data.csv
+                df.to_csv(BUDGET_DATA, index=False)
+
+                # Make response JSON
+                response_json = {
+                    "response": {
+                        "event": "modifyBudgetData",
+                        "body": {"code": "200"}
+                    }
+                }
+
+                # Respond JSON data
+                socket.send_json(response_json)
+
+            else:
+                response_json = {
+                    "response": {
+                        "event": "wrongRequest",
+                        "body": {"code": "400"}
+                        }
+                    }
+
+                # Respond JSON data
+                socket.send_json(response_json)
         elif event == "getBudgetRecord":
-
+            print("test")
         elif event == "getProjectList":
-
+            print("test")
         else:
             response_json = {
                 "response": {
-                    "event": "registerBudgetData",
+                    "event": "wrongRequest",
                     "body": {"code": "400"}
                 }
             }
 
-        # Respond JSON data
-        socket.send_json(response_json)
+            # Respond JSON data
+            socket.send_json(response_json)
 
     socket.close()
     context.destroy()
@@ -93,4 +144,4 @@ def receive_register_budget_data():
 
 
 if __name__ == "__main__":
-    receive_register_budget_data()
+    receive_json_data()

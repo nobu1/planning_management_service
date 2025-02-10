@@ -1,7 +1,7 @@
 import zmq
 
 
-def send_register_budget_data():
+def send_json_data():
     context = zmq.Context()
     socket = context.socket(zmq.REQ)
     socket.connect("tcp://localhost:5555")
@@ -12,16 +12,9 @@ def send_register_budget_data():
     print("2. Modify Budget Data")
     print("3. Getting Budget Data")
     print("4. Getting Project List")
-    while True:
-        input_menu = input("Select the service menus[1-4]: ")
-        if input_menu != 1 or input_menu != 2 or \
-           input_menu != 3 or input_menu != 4:
-            print("Please input the number between 1 and 4")
-        else:
-            break
-    print("\n")
+    input_menu = input("Select the service menus[1-4]: ")
 
-    if input_menu == 1:
+    if input_menu == "1":
         print("Request to register the budget data")
 
         # Send request JSON
@@ -51,7 +44,7 @@ def send_register_budget_data():
         receive_register_budget_json = socket.recv_json()
         print(receive_register_budget_json['response']['body'])
 
-    elif input_menu == 2:
+    elif input_menu == "2":
         print("Request to modify the budget data")
 
         # Send request JSON
@@ -64,7 +57,7 @@ def send_register_budget_data():
                     "amount": [
                         {
                             "month": "2025-01",
-                            "pv": "100"
+                            "pv": "200"
                         }
                     ]
                 }
@@ -76,7 +69,7 @@ def send_register_budget_data():
         receive_modify_budget_json = socket.recv_json()
         print(receive_modify_budget_json['response']['body'])
 
-    elif input_menu == 3:
+    elif input_menu == "3":
         print("Request to get the budget data")
 
         # Send request JSON
@@ -95,7 +88,7 @@ def send_register_budget_data():
         print(receive_get_budget_json['response']['body'])
         print(receive_get_budget_json['response']['code'])
 
-    elif input_menu == 4:
+    elif input_menu == "4":
         print("Request to get the project list")
 
         # Send request JSON
@@ -112,6 +105,10 @@ def send_register_budget_data():
         print(receive_get_project_json['response']['body']['projects'])
         print(receive_get_project_json['response']['code'])
 
+    else:
+        print("Please input the number between 1 and 4")
+        print("\n")
+
     socket.close()
     context.destroy()
 
@@ -119,4 +116,4 @@ def send_register_budget_data():
 
 
 if __name__ == "__main__":
-    send_register_budget_data()
+    send_json_data()
