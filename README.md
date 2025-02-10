@@ -5,7 +5,7 @@
 1. UML sequence diagram
 
 - Sequence diagram for Register Budget Data
-![Resiger Budget Data](./img/UMLRegisterBudgetData.jpg "Register Budget Data")
+![Resiger Budget Data](./img/UML_RegisterBudgetData.jpg "Register Budget Data")
 
 - Sequence diagram for Modify Budget Data
 ![Modify Budget Data](./img/UML_ModifyBudgetData.jpg "Modify Budget Data")
