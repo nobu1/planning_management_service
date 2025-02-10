@@ -1,32 +1,32 @@
 # Planning Management Service
 
 1. Instructions for REQUEST data
-- Make request of registering budget JSON.
-- Example request call is as follows.
-```
-request_register_budget_json = {
-    "request": {
-        "event": "registerBudgetData",
-        "body": {
-            "projectName": "project",
-            "startMonth": "2025-01",
-            "endMonth": "2025-02",
-            "amount": [
-                {
-                    "month": "2025-01",
-                    "pv": "100"
-                },
-                {
-                    "month": "2025-02",
-                    "pv": "200"
-                }
-            ]
+    - Make request of registering budget JSON.
+    - Example request call is as follows.
+    ```
+    request_register_budget_json = {
+        "request": {
+            "event": "registerBudgetData",
+            "body": {
+                "projectName": "project",
+                "startMonth": "2025-01",
+                "endMonth": "2025-02",
+                "amount": [
+                    {
+                        "month": "2025-01",
+                        "pv": "100"
+                    },
+                    {
+                        "month": "2025-02",
+                        "pv": "200"
+                    }
+                ]
+            }
         }
     }
-}
-```
-- Send the register budget JSON.
-- Receive register budget JSON response.  
+    ```
+    - Send the register budget JSON.
+    - Receive register budget JSON response.  
 1. Instructions for RECEIVE data
 1. UML sequence diagram
   
