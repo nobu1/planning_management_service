@@ -1,10 +1,9 @@
 # Planning Management Service
 
-## Instructions for REQUEST data
+a. Instructions for REQUEST data
+a. Instructions for RECEIVE data
+a. UML sequence diagram
 
-## Instructions for RECEIVE data
- 
-## UML sequence diagram
 - Sequence diagram for Register Budget Data
 ![Resiger Budget Data](./img/UMLRegisterBudgetData.jpg "Register Budget Data")
 
