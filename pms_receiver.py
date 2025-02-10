@@ -127,7 +127,7 @@ def receive_json_data():
             # Extract the projectName from the receive_records
             project_name = \
                 receive_records['request']['body']['projectName']
-            
+
             # Read budget_data.csv
             df = pd.read_csv(BUDGET_DATA)
             df = df[df['projectName'] == project_name]
@@ -152,10 +152,10 @@ def receive_json_data():
 
             # Respond JSON data
             socket.send_json(response_json)
-        elif event == "getProjectList":            
+        elif event == "getProjectList":
             # Read project.csv
             df = pd.read_csv(PROJECT)
-            
+
             # Initialize JSON
             response_json = {
                 "response": {
