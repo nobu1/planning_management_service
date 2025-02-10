@@ -88,11 +88,12 @@ def receive_json_data():
             # Read budget_data.csv
             df = pd.read_csv(BUDGET_DATA)
 
-            # Update the value of pv
+            # Check exisiting project name and month
             if df[
                 (df["projectName"] == str(project_name)) &
                 (df["month"] == str(amount_dict["month"]))
             ].bool:
+                # Update the value of pv
                 df.loc[
                     (df["projectName"] == str(project_name)) &
                     (df["month"] == str(amount_dict["month"])), "pv"
@@ -123,9 +124,59 @@ def receive_json_data():
                 # Respond JSON data
                 socket.send_json(response_json)
         elif event == "getBudgetRecord":
-            print("test")
-        elif event == "getProjectList":
-            print("test")
+            # Extract the projectName from the receive_records
+            project_name = \
+                receive_records['request']['body']['projectName']
+            
+            # Read budget_data.csv
+            df = pd.read_csv(BUDGET_DATA)
+            df = df[df['projectName'] == project_name]
+
+            # Initialize JSON
+            response_json = {
+                "response": {
+                    "event": "getBudgetRecord",
+                    "body": {
+                        "records": []
+                    },
+                    "code": "200"
+                }
+            }
+
+            # Append into records
+            for _, row in df.iterrows():
+                response_json["response"]["body"]["records"].append({
+                    "month": str(row['month']),
+                    "pv": str(row['pv'])
+                })
+
+            # Respond JSON data
+            socket.send_json(response_json)
+        elif event == "getProjectList":            
+            # Read project.csv
+            df = pd.read_csv(PROJECT)
+            
+            # Initialize JSON
+            response_json = {
+                "response": {
+                    "event": "getBudgetRecord",
+                    "body": {
+                        "projects": []
+                    },
+                    "code": "200"
+                }
+            }
+
+            # Append into projects
+            for _, row in df.iterrows():
+                response_json["response"]["body"]["projects"].append({
+                    "projectName": str(row['projectName']),
+                    "startMonth": str(row['startMonth']),
+                    "endMonth": str(row['endMonth'])
+                })
+
+            # Respond JSON data
+            socket.send_json(response_json)
         else:
             response_json = {
                 "response": {
