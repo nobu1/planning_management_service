@@ -69,6 +69,12 @@ def receive_register_budget_data():
                     "body": {"code": "200"}
                 }
             }
+        elif event == "modifyBudgetData":
+
+        elif event == "getBudgetRecord":
+
+        elif event == "getProjectList":
+
         else:
             response_json = {
                 "response": {
