@@ -25,7 +25,7 @@
         }
     }
     ```
-    - Send the request JSON.
+    - Send the request JSON to receiver.
     - Receive JSON data from the receiver.  
 1. Instructions for RECEIVE data
     - Receive the request JSON.
@@ -55,7 +55,7 @@
         }
     }
     ```
-    - Send the response JSON.
+    - Send the response JSON to the sender.
 1. UML sequence diagram
     - Sequence diagram for Register Budget Data
     ![Resiger Budget Data](./img/UML_RegisterBudgetData.jpg "Register Budget Data")  
