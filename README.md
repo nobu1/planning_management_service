@@ -1,7 +1,7 @@
 # Planning Management Service
 
 1. Instructions for REQUEST data
-    - Make request of registering budget JSON.
+    - Make a request JSON.
     - Example request call is as follows.
     ```
     request_register_budget_json = {
@@ -25,19 +25,46 @@
         }
     }
     ```
-    - Send the register budget JSON.
-    - Receive register budget JSON response.  
+    - Send the request JSON.
+    - Receive JSON data from the receiver.  
 1. Instructions for RECEIVE data
+    - Receive the request JSON.
+    - Confirm the event data of the JSON.
+    - Extract data from the received JSON
+    - Make a response JSON
+    - Example response call is as follows.
+    ```
+    response_json = {
+        "response": {
+            "event": "getBudgetRecord",
+            "body": {
+                "projects": [
+                    {
+                        "projectName": "projectA",
+                        "startMonth": "2025-01",
+                        "endMonth": "2025-02"
+                    },
+                    {
+                        "projectName": "projectB",
+                        "startMonth": "2025-03",
+                        "endMonth": "2025-04"
+                    }                 
+                ]
+            },
+            "code": "200"
+        }
+    }
+    ```
+    - Send the response JSON.
 1. UML sequence diagram
-  
-- Sequence diagram for Register Budget Data
-![Resiger Budget Data](./img/UML_RegisterBudgetData.jpg "Register Budget Data")  
+    - Sequence diagram for Register Budget Data
+    ![Resiger Budget Data](./img/UML_RegisterBudgetData.jpg "Register Budget Data")  
 
-- Sequence diagram for Modify Budget Data
-![Modify Budget Data](./img/UML_ModifyBudgetData.jpg "Modify Budget Data")  
+    - Sequence diagram for Modify Budget Data
+    ![Modify Budget Data](./img/UML_ModifyBudgetData.jpg "Modify Budget Data")  
 
-- Sequence diagram for Get Budget Data
-![Get Budget Data](./img/UML_GetBudgetData.jpg "Get Budget Data")  
+    - Sequence diagram for Get Budget Data
+    ![Get Budget Data](./img/UML_GetBudgetData.jpg "Get Budget Data")  
 
-- Sequcence diagram for Get Project List
-![Get Project List](./img/UML_GetProjectList.jpg "Get Project List")  
+    - Sequcence diagram for Get Project List
+    ![Get Project List](./img/UML_GetProjectList.jpg "Get Project List")  
