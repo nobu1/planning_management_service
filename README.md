@@ -25,7 +25,7 @@
         }
     }
     ```
-    - Send the request JSON to receiver.
+    - Send the request JSON to the receiver.
     - Receive JSON data from the receiver.  
 1. Instructions for RECEIVE data
     - Receive the request JSON.
