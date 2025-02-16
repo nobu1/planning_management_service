@@ -4,6 +4,7 @@
     - Make a request JSON.
     - Example request call is as follows.
     ```
+    **** Request call of Register Budget Data ****
     request_register_budget_json = {
         "request": {
             "event": "registerBudgetData",
@@ -24,6 +25,41 @@
             }
         }
     }
+
+    **** Request call of Modify Budget Data ****
+    request_modify_budget_json = {
+        "request": {
+            "event": "modifyBudgetData",
+            "body": {
+                "projectName": "project",
+                "userName": "suzuki",
+                "amount": [
+                    {
+                        "month": "2025-01",
+                        "pv": "200"
+                    }
+                ]
+            }
+        }
+    }
+
+    **** Request call of Get Budget Data ****
+    request_get_budget_json = {
+        "request": {
+            "event": "getBudgetRecord",
+            "body": {
+                "projectName": "project"
+            }
+        }
+    }
+
+    **** Request call of Get Project List ****
+    request_get_project_json = {
+        "request": {
+            "event": "getProjectList",
+            "body": ""
+        }
+    }
     ```
     - Send the request JSON to the receiver.
     - Receive JSON data from the receiver.  
@@ -34,6 +70,43 @@
     - Make a response JSON
     - Example response call is as follows.
     ```
+    **** Response call of Register Budget Data ****
+    response_json = {
+        "response": {
+            "event": "registerBudgetData",
+            "body": {"code": "200"}
+        }
+    }
+
+    **** Response call of Modify Budget Data ****
+    response_json = {
+        "response": {
+            "event": "modifyBudgetData",
+            "body": {"code": "200"}
+        }
+    }
+
+    **** Response call of Get Budget Data ****
+    response_json = {
+        "response": {​​
+            "event": "getBudgetRecord",​​
+            "body": {​​
+                "records": [​​
+                    {​​
+                        "month": "2025-01",​​
+                        "pv": "100"​​
+                    },​​
+                    {​​
+                        "month": "2025-02",​​
+                        "pv": "200"​​
+                    }​​
+                ]​​
+            },​​
+            "code" : "200”,​​
+        }
+    }​​
+
+    **** Response call of Get Project List ****
     response_json = {
         "response": {
             "event": "getBudgetRecord",
