@@ -6,6 +6,8 @@ import pms_get_project_list as get_project
 
 
 def respond_json(socket, event, response_code):
+    """Send respond JSON with event and response code"""
+
     # Make response JSON
     response_json = {
         "response": {
@@ -14,49 +16,44 @@ def respond_json(socket, event, response_code):
         }
     }
 
-    # Respond JSON data
+    # Response event and response code as JSON
     socket.send_json(response_json)
 
 
 def receive_json_data():
+    """Receive request JSON data"""
+
+    # Set port of ZeroMQ
     context = zmq.Context()
     socket = context.socket(zmq.REP)
     socket.bind("tcp://*:5555")
 
     print("PMS Receiver Startup.")
-
     while True:
-        # Receive JSON request
+        # Extract event data from the request JSON data
         receive_records = socket.recv_json()
-
-        # Confirm event data
         event = receive_records['request']['event']
 
         if event == "registerBudgetData":
-            # Register the budget data
+            # Get the response code from registering the budget data
             response_code = register_budget.register(receive_records)
 
-            # Respond JSON data
+            # Response with registerd budget data as JSON
             respond_json(socket, event, response_code)
         elif event == "modifyBudgetData":
-            # Modify the budget data
+            # Get the response code from modifying the budget data
             response_code = modify_budget.modify(receive_records)
 
-            # Respond JSON data
+            # Response with modified budget data as JSON
             respond_json(socket, event, response_code)
         elif event == "getBudgetRecord":
-            # Get budget record
-            response_json = get_budget.make_budget_data(receive_records)
-
-            # Respond JSON data
-            socket.send_json(response_json)
+            # Response with budget data as JSON
+            socket.send_json(get_budget.make_budget_data(receive_records))
         elif event == "getProjectList":
-            # Get project list
-            response_json = get_project.make_project_list(receive_records)
-
-            # Respond JSON data
-            socket.send_json(response_json)
+            # Response with project list data as JSON
+            socket.send_json(get_project.make_project_list(receive_records))
         else:
+            # Not match any event data
             response_json = {
                 "response": {
                     "event": "wrongRequest",
@@ -64,7 +61,7 @@ def receive_json_data():
                 }
             }
 
-            # Respond JSON data
+            # Response with wrong event request as JSON
             socket.send_json(response_json)
 
     socket.close()
