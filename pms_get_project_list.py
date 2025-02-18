@@ -3,6 +3,8 @@ import csv_file_path as PATH
 
 
 def make_project_list(receive_records):
+    """Make project list with received JSON records"""
+
     # Read project.csv
     df = pd.read_csv(PATH.PROJECT)
 
@@ -17,7 +19,7 @@ def make_project_list(receive_records):
         }
     }
 
-    # Append into projects
+    # Append into projects list
     for _, row in df.iterrows():
         response_json["response"]["body"]["projects"].append({
             "projectName": str(row['projectName']),

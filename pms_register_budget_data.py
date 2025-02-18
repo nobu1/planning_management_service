@@ -3,6 +3,8 @@ import csv_file_path as PATH
 
 
 def register(receive_records):
+    """Register data into budget_data.csv and project.csv"""
+
     # Extract the body data from the receive_records
     project_name = \
         receive_records['request']['body']['projectName']

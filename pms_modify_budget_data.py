@@ -3,6 +3,8 @@ import csv_file_path as PATH
 
 
 def modify(receive_records):
+    """Modify data of budget_data.csv"""
+
     # Extract the body data from the receive_records
     project_name = \
         receive_records['request']['body']['projectName']
@@ -23,7 +25,7 @@ def modify(receive_records):
         (df["projectName"] == str(project_name)) &
         (df["month"] == str(amount_dict["month"]))
     ].bool:
-        # Update the value of pv
+        # If exist, update the value of pv
         df.loc[
             (df["projectName"] == str(project_name)) &
             (df["month"] == str(amount_dict["month"])), "pv"
@@ -35,5 +37,5 @@ def modify(receive_records):
         # Return response code
         return "200"
     else:
-        # Return response code
+        # If not exist, return response code
         return "400"

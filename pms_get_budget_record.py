@@ -3,6 +3,8 @@ import csv_file_path as PATH
 
 
 def make_budget_data(receive_records):
+    """Make budget data with received JSON records"""
+
     # Extract the projectName from the receive_records
     project_name = \
         receive_records['request']['body']['projectName']
@@ -22,7 +24,7 @@ def make_budget_data(receive_records):
         }
     }
 
-    # Append into records
+    # Append into records list
     for _, row in df.iterrows():
         response_json["response"]["body"]["records"].append({
             "month": str(row['month']),
