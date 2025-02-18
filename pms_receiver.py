@@ -16,7 +16,6 @@ def response_json_with_code(socket, event, response_code):
         }
     }
 
-    # Response event and response code as JSON
     socket.send_json(response_json)
 
 
@@ -43,26 +42,21 @@ def receive_json_data():
             # Get the response code from registering the budget data
             response_code = register_budget.register(receive_records)
 
-            # Response with event and response code as JSON
             response_json_with_code(socket, event, response_code)
         elif event == "modifyBudgetData":
             # Get the response code from modifying the budget data
             response_code = modify_budget.modify(receive_records)
 
-            # Response with event and response code as JSON
             response_json_with_code(socket, event, response_code)
         elif event == "getBudgetRecord":
-            # Response with budget data as JSON
             response_json_with_data(
                 get_budget.make_budget_data(receive_records)
             )
         elif event == "getProjectList":
-            # Response with project list data as JSON
             response_json_with_data(
                 get_project.make_project_list(receive_records)
             )
         else:
-            # Response with wrongRequest and 400 response code as JSON
             response_json_with_code(socket, "wrongRequest", "400")
 
     socket.close()
