@@ -5,8 +5,8 @@ import pms_get_budget_record as get_budget
 import pms_get_project_list as get_project
 
 
-def respond_json(socket, event, response_code):
-    """Send respond JSON with event and response code"""
+def response_json_with_code(socket, event, response_code):
+    """Send response JSON with event and response code"""
 
     # Make response JSON
     response_json = {
@@ -18,6 +18,11 @@ def respond_json(socket, event, response_code):
 
     # Response event and response code as JSON
     socket.send_json(response_json)
+
+
+def response_json_with_data(socket, json_data):
+    """Send response JSON with data"""
+    socket.send_json(json_data)
 
 
 def receive_json_data():
@@ -38,20 +43,24 @@ def receive_json_data():
             # Get the response code from registering the budget data
             response_code = register_budget.register(receive_records)
 
-            # Response with registerd budget data as JSON
-            respond_json(socket, event, response_code)
+            # Response with event and response code as JSON
+            response_json_with_code(socket, event, response_code)
         elif event == "modifyBudgetData":
             # Get the response code from modifying the budget data
             response_code = modify_budget.modify(receive_records)
 
-            # Response with modified budget data as JSON
-            respond_json(socket, event, response_code)
+            # Response with event and response code as JSON
+            response_json_with_code(socket, event, response_code)
         elif event == "getBudgetRecord":
             # Response with budget data as JSON
-            socket.send_json(get_budget.make_budget_data(receive_records))
+            response_json_with_data(
+                get_budget.make_budget_data(receive_records)
+            )
         elif event == "getProjectList":
             # Response with project list data as JSON
-            socket.send_json(get_project.make_project_list(receive_records))
+            response_json_with_data(
+                get_project.make_project_list(receive_records)
+            )
         else:
             # Not match any event data
             response_json = {
