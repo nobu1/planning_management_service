@@ -62,16 +62,8 @@ def receive_json_data():
                 get_project.make_project_list(receive_records)
             )
         else:
-            # Not match any event data
-            response_json = {
-                "response": {
-                    "event": "wrongRequest",
-                    "body": {"code": "400"}
-                }
-            }
-
-            # Response with wrong event request as JSON
-            socket.send_json(response_json)
+            # Response with wrongRequest and 400 response code as JSON
+            response_json_with_code(socket, "wrongRequest", "400")
 
     socket.close()
     context.destroy()
