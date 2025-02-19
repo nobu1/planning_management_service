@@ -5,6 +5,9 @@ import pms_get_budget_record as get_budget
 import pms_get_project_list as get_project
 
 
+PORT_NUMBER = 5555
+
+
 def response_json_with_code(socket, event, response_code):
     """Send response JSON with event and response code"""
 
@@ -30,7 +33,7 @@ def receive_json_data():
     # Set port of ZeroMQ
     context = zmq.Context()
     socket = context.socket(zmq.REP)
-    socket.bind("tcp://*:5555")
+    socket.bind("tcp://*:" + str(PORT_NUMBER))
 
     print("PMS Receiver Startup.")
     while True:
@@ -50,10 +53,12 @@ def receive_json_data():
             response_json_with_code(socket, event, response_code)
         elif event == "getBudgetRecord":
             response_json_with_data(
+                socket,
                 get_budget.make_budget_data(receive_records)
             )
         elif event == "getProjectList":
             response_json_with_data(
+                socket,
                 get_project.make_project_list(receive_records)
             )
         else:
