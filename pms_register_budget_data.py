@@ -12,23 +12,7 @@ def register(receive_records):
         receive_records['request']['body']['startMonth']
     end_month = \
         receive_records['request']['body']['endMonth']
-    amount1_dict = {
-        "month": "",
-        "pv": ""
-    }
-    amount2_dict = {
-        "month": "",
-        "pv": ""
-    }
-    amount1_dict["month"] = \
-        receive_records['request']['body']['amount'][0]['month']
-    amount1_dict['pv'] = \
-        receive_records['request']['body']['amount'][0]['pv']
-    amount2_dict["month"] = \
-        receive_records['request']['body']['amount'][1]['month']
-    amount2_dict['pv'] = \
-        receive_records['request']['body']['amount'][1]['pv']
-    amount_list = [amount1_dict, amount2_dict]
+    amount = receive_records['request']['body']['amount']
 
     # Store the budget data into project.csv
     df = pd.DataFrame({
@@ -39,7 +23,7 @@ def register(receive_records):
     df.to_csv(PATH.PROJECT, index=False, mode='a', header=False)
 
     # Store the budget data into budget_data.csv
-    for data in amount_list:
+    for data in amount:
         df = pd.DataFrame({
             'projectName': [project_name],
             'month': data["month"],
