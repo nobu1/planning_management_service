@@ -46,7 +46,7 @@ def send_json_data():
             # Receive response JSON
             receive_register_budget_json = socket.recv_json()
             print(receive_register_budget_json['response']['body'])
-
+            print("\n")
         elif input_menu == "2":
             print("Request to modify the budget data")
 
@@ -71,7 +71,7 @@ def send_json_data():
             # Receive response JSON
             receive_modify_budget_json = socket.recv_json()
             print(receive_modify_budget_json['response']['body'])
-
+            print("\n")
         elif input_menu == "3":
             print("Request to get the budget data")
 
@@ -90,7 +90,7 @@ def send_json_data():
             receive_get_budget_json = socket.recv_json()
             print(receive_get_budget_json['response']['body'])
             print(receive_get_budget_json['response']['code'])
-
+            print("\n")
         elif input_menu == "4":
             print("Request to get the project list")
 
@@ -107,7 +107,7 @@ def send_json_data():
             receive_get_project_json = socket.recv_json()
             print(receive_get_project_json['response']['body']['projects'])
             print(receive_get_project_json['response']['code'])
-
+            print("\n")
         elif input_menu == "5":
             print("Good bye!")
             break
