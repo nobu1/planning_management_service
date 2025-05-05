@@ -1,2 +1,3 @@
-/__pycache__/
-.gitignore
+# pychache
+__pycache__/
+*.pyc
